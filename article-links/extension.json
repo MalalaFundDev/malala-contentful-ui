@@ -1,0 +1,8 @@
+{
+  "id": "article-links",
+  "name": "article-links",
+  "srcdoc": "./build/index.html",
+  "fieldTypes": [
+    "Object"
+  ]
+}

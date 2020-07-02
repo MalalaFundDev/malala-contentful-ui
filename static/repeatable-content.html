@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" >
+    <link rel="stylesheet" href="https://contentful.github.io/ui-extensions-sdk/cf-extension.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+
+
+
+    <style type="text/css">
+        .markdown-editor .markdown-body {
+            padding: 0.5em;
+        }
+
+        .markdown-editor .editor-preview-active, .markdown-editor .editor-preview-active-side {
+            display: block;
+        }
+
+        .repeater-item {
+            padding: 15px 15px 15px 30px;
+            border: 1px solid #d3dce0;
+            border-radius: 2px;
+            position: relative;
+            transition: all .25s;
+            margin-bottom: 15px;
+        }
+
+        .repeater-item:hover {
+            box-shadow: 5px 5px 5px -4px rgba(0,0,0,0.14);
+        }
+
+        .repeater-handle {
+            position: absolute;
+            background-color: rgb(247, 249, 250);
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 15px;
+            border-right: 1px solid #d3dce0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .item-controls {
+            padding: 18px 15px;
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+
+        .item-controls .icon {
+            cursor: pointer;
+            color: rgb(83, 97, 113);
+        }
+
+        .item-title {
+            font-weight: bold;
+            padding: 10px;
+            margin: -10px 0;
+        }
+    </style>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.7.0/Sortable.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Vue.Draggable/2.15.0/vuedraggable.min.js"></script>
+    <script src="https://unpkg.com/contentful-ui-extensions-sdk@3"></script>
+    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/incraigulous/contentful-ui-extensions@1.0.4/src/components/icon.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/incraigulous/contentful-ui-extensions@1.0.4/src/components/item.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/incraigulous/contentful-ui-extensions@1.0.4/src/components/repeater.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/incraigulous/contentful-ui-extensions@1.0.4/src/components/markdown.js"></script>
+</head>
+
+<body>
+<div id="app">
+    <repeater :items="items" :defaults="defaults">
+        <template slot-scope="repeater">
+            <div class="cf-form-field">
+                <label>Label</label>
+                <input class="cf-form-input" v-model="repeater.item.label" ref="label">
+            </div>
+            <div class="cf-form-field">
+                <label>Content</label>
+                <markdown-editor v-model="repeater.item.content" class="cf-form-input content-field" ref="content"></markdown-editor>
+            </div>
+        </template>
+    </repeater>
+</div>
+
+<script type="text/javascript">
+    'use strict';
+</script>
+
+<script type="text/javascript">
+    function initExtension (extensionsApi) {
+        extensionsApi.window.startAutoResizer();
+        let field = extensionsApi.field;
+
+        new Vue({
+            el: '#app',
+            data: {
+                items: [],
+                defaults: {
+                    'label': '',
+                    'content': ''
+                }
+            },
+            mounted() {
+                let old = field.getValue()
+                if (old) {
+                    this.items = old;
+                }
+                this.$watch('items', this.handleChange.bind(this), {
+                    deep: true
+                })
+            },
+            methods: {
+                handleChange() {
+                    if (this.items.length) {
+                        field.setValue(this.items)
+                    } else {
+                        field.removeValue()
+                    }
+                }
+            },
+            detach() {
+                detachValueChangeHandler();
+            }
+        })
+    }
+</script>
+
+<script type="text/javascript">
+    window.contentfulExtension.init(initExtension);
+</script>
+
+</body>
+
+</html>

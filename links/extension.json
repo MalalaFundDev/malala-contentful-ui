@@ -1,0 +1,20 @@
+{
+  "id": "links",
+  "name": "links",
+  "srcdoc": "./build/index.html",
+  "fieldTypes": [
+    "Object"
+  ],
+  "parameters": {
+    "instance": [
+      {
+        "id": "max",
+        "name": "Max",
+        "default": 0,
+        "description": "Maximum number of links allowed.",
+        "type": "Number",
+        "required": true
+      }
+    ]
+  }
+}

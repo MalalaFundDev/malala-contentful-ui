@@ -1,0 +1,8 @@
+{
+  "id": "images",
+  "name": "images",
+  "srcdoc": "./build/index.html",
+  "fieldTypes": [
+    "Object"
+  ]
+}

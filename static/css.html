@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Ace Editor Extension</title>
+    <link rel="stylesheet" href="https://contentful.github.io/ui-extensions-sdk/cf-extension.css">
+    <style>
+        body { margin: 0; }
+        #editor {
+            min-height: 300px;
+        }
+    </style>
+    <script src="https://unpkg.com/contentful-ui-extensions-sdk@3"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lodash@4.17.4/lodash.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ace-builds@1.2.9/src-min-noconflict/ace.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/ace-builds@1.2.9/src-min-noconflict/mode-css.js"></script>
+</head>
+<body>
+<pre id="editor"></pre>
+<script>
+
+    var cfExt = window.contentfulExtension || window.contentfulWidget
+    cfExt.init(function (api) {
+        function updateFieldValue () {
+            var value = editor.getValue()
+            api.field.setValue(value)
+        }
+        api.window.startAutoResizer()
+        var value = api.field.getValue() || ''
+        document.getElementById('editor').innerText = value
+        var editor = ace.edit('editor')
+        editor.session.setMode('ace/mode/css')
+        editor.on('change', _.throttle(updateFieldValue, 500, { leading: false }))
+    })
+</script>
+</body>
+</html>

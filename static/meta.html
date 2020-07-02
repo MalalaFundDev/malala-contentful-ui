@@ -1,0 +1,173 @@
+ <!doctype html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" >
+    <link rel="stylesheet" href="https://contentful.github.io/ui-extensions-sdk/cf-extension.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+
+
+
+    <style type="text/css">
+        .container {
+            margin: 15px;
+        }
+
+        .padded {
+            padding: 30px;
+        }
+
+        .VueCarousel-navigation-button {
+            font-size: 1.5rem;
+            color: #afc0c8 !important;
+        }
+
+        .VueCarousel-slide {
+            text-align: center;
+        }
+
+        .VueCarousel-slide > img:first-child {
+            max-width: 75%;
+        }
+
+
+        .markdown-editor .markdown-body {
+            padding: 0.5em;
+        }
+
+        .markdown-editor .editor-preview-active, .markdown-editor .editor-preview-active-side {
+            display: block;
+        }
+
+        .repeater-item {
+            padding: 15px 15px 15px 30px;
+            border: 1px solid #d3dce0;
+            border-radius: 2px;
+            position: relative;
+            transition: all .25s;
+            margin-bottom: 15px;
+        }
+
+        .repeater-item:hover {
+            box-shadow: 5px 5px 5px -4px rgba(0,0,0,0.14);
+        }
+
+        .repeater-handle {
+            position: absolute;
+            background-color: rgb(247, 249, 250);
+            left: 0;
+            top: 0;
+            bottom: 0;
+            width: 15px;
+            border-right: 1px solid #d3dce0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .item-controls {
+            padding: 18px 15px;
+            position: absolute;
+            top: 0;
+            right: 0;
+        }
+
+        .item-controls .icon {
+            cursor: pointer;
+            color: rgb(83, 97, 113);
+        }
+
+        .item-title {
+            font-weight: bold;
+            padding: 10px;
+            margin: -10px 0;
+        }
+    </style>
+
+    <script src="https://unpkg.com/contentful-ui-extensions-sdk@3"></script>
+    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/incraigulous/contentful-ui-extensions@1.2.5/dist/extension.js"></script>
+</head>
+
+<body>
+<div id="app">
+    <repeater :items="items"
+              :defaults="defaults"
+              name="tag"
+              label-field="name">
+        <template slot-scope="repeater">
+            <div class="cf-form-field">
+                <label>Name</label>
+                <select class="cf-form-input"
+                        v-model="repeater.item.name">
+                    <option value="title">title</option>
+                    <option value="description">description</option>
+                    <option value="keywords">keywords</option>
+                    <option value="image">image</option>
+                </select>
+            </div>
+            <div class="cf-form-field">
+                <label>Content</label>
+                <asset v-if="repeater.item.name === 'image'"
+                       class="cf-form-input"
+                       v-model="repeater.item.content"></asset>
+                <input v-else
+                       v-model="repeater.item.content"
+                       class="cf-form-input content-field"
+                       ref="content">
+            </div>
+        </template>
+    </repeater>
+</div>
+
+<script type="text/javascript">
+    'use strict';
+</script>
+
+<script type="text/javascript">
+    new Vue({
+        mixins: [extension],
+        data: {
+            items: [],
+            defaults: {
+                'name': 'title',
+                'content': ''
+            }
+        },
+        methods: {
+            initialized() {
+                let old = this.field.getValue()
+
+                this.$watch('items', this.handleChange.bind(this), {
+                    deep: true
+                })
+
+                if (old) {
+                    if (typeof old === 'string') {
+                        old = JSON.parse(old)
+                    }
+                    if (typeof old === 'object' && old instanceof Array) {
+                        this.items = old;
+                    } else if (typeof old === 'object') {
+                        this.items = Object.entries(old).map(item => {
+                            return {
+                                name: item[0],
+                                content: item[1]
+                            }
+                        })
+                    }
+                }
+            },
+            handleChange() {
+                if (this.items.length) {
+                    this.field.setValue(this.items)
+                } else {
+                    this.field.removeValue()
+                }
+            }
+        }
+    })
+</script>
+</body>
+
+</html>
