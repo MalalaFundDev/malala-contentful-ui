@@ -27,7 +27,7 @@ Extensions can be deployed directly to contentful if they are small enough using
 
 Note that the build command adds slashes to the asset URLs, so you'll need to remove them since we're deploying from subfolders. 
 
-```$html
+```html
 <!DOCTYPE html>
 <html>
   <head>
