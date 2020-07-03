@@ -18,7 +18,7 @@ All extensions can be built and deployed using [Contentful Create Extension](htt
 
 Extensions can be deployed directly to contentful if they are small enough using `npm run deploy`. If they are too large, they should be deployed using the self-hosted URLs above. 
 
-**Deploying to the self-hosted URLs.** 
+**Deploying to the self-hosted URLs** 
 
 
 
