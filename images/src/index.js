@@ -7,8 +7,6 @@ import '@contentful/forma-36-react-components/dist/styles.css';
 import './index.css';
 import {CollapseCard, Sortable, EditorField, ImageField} from "malala-contentful-ui";
 
-console.log(CollapseCard, Sortable, EditorField, ImageField);
-
 export class App extends React.Component {
   static propTypes = {
     sdk: PropTypes.object.isRequired
