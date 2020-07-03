@@ -1,14 +1,13 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import ReactDOM from 'react-dom';
-import {CheckboxField, FormLabel, TextInput, IconButton, ValidationMessage} from '@contentful/forma-36-react-components';
+import {FormLabel, TextInput, ValidationMessage} from '@contentful/forma-36-react-components';
 import {init} from 'contentful-ui-extensions-sdk';
 import '@contentful/forma-36-react-components/dist/styles.css';
 import './index.css';
-import {CollapseCard} from "./collapseCard";
-import {Sortable} from './sortable'
-import {EditorField} from "./editorField";
-import {ImageField} from './imageField'
+import {CollapseCard, Sortable, EditorField, ImageField} from "malala-contentful-ui";
+
+console.log(CollapseCard, Sortable, EditorField, ImageField);
 
 export class App extends React.Component {
   static propTypes = {
