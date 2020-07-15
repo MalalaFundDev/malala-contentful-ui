@@ -48761,13 +48761,12 @@ function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { de
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-console.log(_malalaContentfulUi.CollapseCard, _malalaContentfulUi.Sortable, _malalaContentfulUi.EditorField, _malalaContentfulUi.ImageField);
-
 class App extends _react.default.Component {
   get defaultItem() {
     return Object.assign({}, {
       title: '',
       image: null,
+      accent: null,
       description: ''
     });
   }
@@ -48835,7 +48834,7 @@ class App extends _react.default.Component {
       items
     } = this.state;
     return !items.some(item => {
-      return !item.title || !item.image || !item.description;
+      return !item.image || this.props.sdk.parameters.instance.title && !item.title;
     });
   }
 
@@ -48919,7 +48918,7 @@ class App extends _react.default.Component {
       onSortUp: () => Sortable.moveUp(idx),
       canSortDown: idx + 1 !== items.length,
       onSortDown: () => Sortable.moveDown(idx)
-    }, this.renderField(idx, 'title', 'Title', item.title, 'text', true), this.renderField(idx, 'description', 'Description', item.description, 'editor'), this.renderField(idx, 'image', 'Image', item.image, 'image', true), /*#__PURE__*/_react.default.createElement("div", {
+    }, this.props.sdk.parameters.instance.title ? this.renderField(idx, 'title', 'Title', item.title, 'text') : null, this.props.sdk.parameters.instance.description ? this.renderField(idx, 'description', 'Description', item.description, 'editor') : null, this.renderField(idx, 'image', 'Image', item.image, 'image', true), this.props.sdk.parameters.instance.accent ? this.renderField(idx, 'accent', 'Accent', item.accent, 'image') : null, /*#__PURE__*/_react.default.createElement("div", {
       style: {
         marginTop: "15px"
       }
@@ -48998,7 +48997,7 @@ var parent = module.bundle.parent;
 if ((!parent || !parent.isParcelRequire) && typeof WebSocket !== 'undefined') {
   var hostname = "" || location.hostname;
   var protocol = location.protocol === 'https:' ? 'wss' : 'ws';
-  var ws = new WebSocket(protocol + '://' + hostname + ':' + "54663" + '/');
+  var ws = new WebSocket(protocol + '://' + hostname + ':' + "49649" + '/');
 
   ws.onmessage = function (event) {
     checkedAssets = {};

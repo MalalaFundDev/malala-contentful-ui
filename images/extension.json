@@ -4,5 +4,33 @@
   "srcdoc": "./build/index.html",
   "fieldTypes": [
     "Object"
-  ]
+  ],
+  "parameters": {
+    "instance": [
+      {
+        "id": "title",
+        "name": "Show Title",
+        "default": false,
+        "description": "Show the title field?",
+        "type": "Boolean",
+        "required": true
+      },
+      {
+        "id": "description",
+        "name": "Show Description",
+        "default": false,
+        "description": "Show the description field?",
+        "type": "Boolean",
+        "required": true
+      },
+      {
+        "id": "accent",
+        "name": "Show Accent",
+        "default": false,
+        "description": "Show the accent field?",
+        "type": "Boolean",
+        "required": true
+      }
+    ]
+  }
 }

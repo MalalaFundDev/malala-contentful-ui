@@ -17,6 +17,7 @@ export class App extends React.Component {
     return Object.assign({}, {
       title: '',
       image: null,
+      accent: null,
       description: ''
     })
   }
@@ -77,10 +78,10 @@ export class App extends React.Component {
   {
     let {items} = this.state;
 
-
     return !items.some((item) => {
-      return !item.title || !item.image || !item.description
-    })
+      return !item.image
+          || this.props.sdk.parameters.instance.title && !item.title
+      })
   }
 
   save(items) {
@@ -152,9 +153,10 @@ export class App extends React.Component {
                       canSortDown={idx + 1 !== items.length}
                       onSortDown={() => Sortable.moveDown(idx)}
         >
-          {this.renderField(idx, 'title', 'Title', item.title, 'text', true)}
-          {this.renderField(idx, 'description', 'Description', item.description, 'editor')}
+          {this.props.sdk.parameters.instance.title ? this.renderField(idx, 'title', 'Title', item.title, 'text') : null}
+          {this.props.sdk.parameters.instance.description ? this.renderField(idx, 'description', 'Description', item.description, 'editor') : null}
           {this.renderField(idx, 'image', 'Image', item.image, 'image', true)}
+          {this.props.sdk.parameters.instance.accent ? this.renderField(idx, 'accent', 'Accent', item.accent, 'image') : null}
 
           <div style={{marginTop: "15px"}}>
             { Sortable.renderAddButton(idx) }
