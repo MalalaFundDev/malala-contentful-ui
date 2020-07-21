@@ -5,7 +5,7 @@ export class ImageField extends React.Component {
     render() {
         let {value} = this.props
 
-        if (!value) {
+        if (!value || !value.fields) {
             return this.renderMissing()
         }
 
@@ -33,7 +33,7 @@ export class ImageField extends React.Component {
     handleCreate()
     {
         const {sdk} = this.props
-        sdk.navigator.openNewAsset({ slideIn: { waitForClose: true } }).then(this.handleLinked.bind(this))
+        sdk.navigator.openNewAsset({ slideIn: { waitForClose: true } }).then(({ entity }) => this.handleLinked(entity))
     }
 
     handleLink()
