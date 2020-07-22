@@ -1,26 +1,36 @@
 
 # 🚀 Malala Contentful UI Extensions  
-  
-This package hosts the following UI extensions:   
 
 ## Extensions
-  
-**Article Links:** Repeatable article title, source and urls.   
-Self-host URL: https://malalafunddev.github.io/malala-contentful-ui/article-links/build  
-  
-**Images:** Repeatable images with descriptions.  
-Self-host URL: https://malalafunddev.github.io/malala-contentful-ui/images/build  
-  
-**Links:** Repeatable links. Can also be used for buttons.   
-Self-host URL: https://malalafunddev.github.io/malala-contentful-ui/links/build  
-  
+
 All extensions can be built and deployed using [Contentful Create Extension](https://github.com/contentful/create-contentful-extension).
 
 Extensions can be deployed directly to contentful if they are small enough using `npm run deploy`. If they are too large, they should be deployed using the self-hosted URLs above. 
+  
+This package hosts the following UI extensions:   
+  
+### Article Links
+Repeatable article title, source and urls.   
 
-**Deploying to the self-hosted URLs** 
+Self-host URL: https://malalafunddev.github.io/malala-contentful-ui/article-links/build  
+  
+### Images
+Repeatable images with descriptions.  
 
+Self-host URL: https://malalafunddev.github.io/malala-contentful-ui/images/build  
+  
+### Links
+Repeatable links. Can also be used for buttons.   
 
+Self-host URL: https://malalafunddev.github.io/malala-contentful-ui/links/build
+
+### Stats
+Repeatable stats with options for [countup.js](https://inorganik.github.io/countUp.js/).
+
+Self-host URL: https://malalafunddev.github.io/malala-contentful-ui/stats/build    
+  
+
+## Deployment
 
 `cd {extension}`
 `npm run build`
