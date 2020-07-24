@@ -16,7 +16,8 @@ export class EditorField extends React.Component {
 
     componentDidMount() {
         this.quill = new Quill(this.field.current, {
-            theme: 'snow'
+            theme: 'snow',
+            formats: ['bold', 'italic', 'link', 'size', 'blockquote', 'header', 'list', 'align']
         });
         this.quill.on('text-change', this.handleChange.bind(this))
     }
