@@ -131,6 +131,7 @@ export class App extends React.Component {
             <SelectField id={`icon-${idx}`} name={"icon"} labelText={"Icon"} value={item.icon} onChange={(e) => this.onChange('icon', idx, e.currentTarget.value)}>
               <Option value={''}>No Icon</Option>
               <Option value={'chevron'}>Chevron</Option>
+              <Option value={'arrow'}>Arrow</Option>
             </SelectField>
           </FieldGroup>
 
