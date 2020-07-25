@@ -17,16 +17,18 @@ export class EditorField extends React.Component {
     componentDidMount() {
         this.quill = new Quill(this.field.current, {
             theme: 'snow',
-            toolbar: [
-                ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
-                ['blockquote'],
-                [{ 'header': 1 }, { 'header': 2 }],               // custom button values
-                [{ 'list': 'ordered'}, { 'list': 'bullet' }],
-                [{ 'size': ['small', 'normal', 'large', 'huge'] }],  // custom dropdown
-                [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
-                [{ 'align': [] }],
-                ['clean']                                         // remove formatting button
-            ]
+            modules: {
+                toolbar: [
+                    ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
+                    ['blockquote'],
+                    [{ 'header': 1 }, { 'header': 2 }],               // custom button values
+                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                    [{ 'size': ['small', 'normal', 'large', 'huge'] }],  // custom dropdown
+                    [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
+                    [{ 'align': [] }],
+                    ['clean']                                         // remove formatting button
+                ]
+            }
         });
         this.quill.on('text-change', this.handleChange.bind(this))
     }
