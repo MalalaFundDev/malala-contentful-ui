@@ -13,6 +13,11 @@ This package hosts the following UI extensions:
 Repeatable article title, source and urls.   
 
 Self-host URL: https://malalafunddev.github.io/malala-contentful-ui/article-links/build  
+
+### Buttons
+Repeatable buttons.   
+
+Self-host URL: https://malalafunddev.github.io/malala-contentful-ui/buttons/build  
   
 ### Images
 Repeatable images with descriptions.  
@@ -68,5 +73,5 @@ A suite of shared components are made available via the root-level npm package. 
 
 Then import: 
 
-`import {CollapseCard, Sortable, EditorField, ImageField} from "malala-contentful-ui";`
+`import {CollapseCard, Sortable, EditorField, ImageField, FieldSet} from "malala-contentful-ui";`
 
