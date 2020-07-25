@@ -1,0 +1,8 @@
+{
+  "id": "buttons",
+  "name": "buttons",
+  "srcdoc": "./build/index.html",
+  "fieldTypes": [
+    "Object"
+  ]
+}
