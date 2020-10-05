@@ -19,7 +19,7 @@ export class App extends React.Component {
   constructor(props) {
     super(props);
 
-    let value = props.sdk.field.getValue() ? props.sdk.field.getValue() : {items: [this.defaultItem()]};
+    let value = props.sdk.field.getValue() ? props.sdk.field.getValue() : {items: []};
 
     this.state = {
       items: value.items,
@@ -52,7 +52,7 @@ export class App extends React.Component {
     let value = this.props.sdk.field.getValue();
 
     if (!value) {
-      value = {items: [this.defaultItem()]}
+      value = {items: []}
     }
 
     this.setState({items: value.items});
@@ -165,13 +165,13 @@ export class App extends React.Component {
     )
   }
 
-  renderAddButton(idx) {
+  renderAddButton(idx = null) {
     const {items} = this.state
 
-    if ((this.props.sdk.parameters.instance.max !== 0 && items.length >= this.props.sdk.parameters.instance.max)
-        || idx + 1 !== items.length) {
+    if (items.length && ((this.props.sdk.parameters.instance.max !== 0 && items.length >= this.props.sdk.parameters.instance.max) || idx + 1 !== items.length)) {
       return
     }
+
 
     return (
         <IconButton
@@ -212,7 +212,7 @@ export class App extends React.Component {
   renderRemoveButton(idx) {
     const {items} = this.state
 
-    if (items.length <= 1) {
+    if (items.length <= 0) {
       return
     }
 
@@ -267,7 +267,7 @@ export class App extends React.Component {
     return (
         <div>
           { this.renderValidation() }
-          { items.map(this.renderItem.bind(this)) }
+          { items.length ? items.map(this.renderItem.bind(this)) : this.renderAddButton() }
         </div>
     )
   }

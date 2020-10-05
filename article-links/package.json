@@ -1,6 +1,6 @@
 {
   "name": "article-links",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "devDependencies": {
     "@contentful/contentful-extension-scripts": "0.15.1",
@@ -17,7 +17,7 @@
   },
   "scripts": {
     "start": "contentful-extension-scripts start",
-    "build": "contentful-extension-scripts build --no-inline",
+    "build": "contentful-extension-scripts build",
     "lint": "eslint ./ --ext .js,.jsx,.ts,.tsx",
     "test": "contentful-extension-scripts test --env=jsdom --watch",
     "test:coverage": "contentful-extension-scripts test --env=jsdom --coverage",

@@ -1,6 +1,6 @@
 {
   "name": "links",
-  "version": "0.1.0",
+  "version": "1.0.0",
   "private": true,
   "devDependencies": {
     "@babel/core": "7.3.4",
@@ -17,7 +17,7 @@
   },
   "scripts": {
     "start": "contentful-extension-scripts start",
-    "build": "contentful-extension-scripts build --no-inline",
+    "build": "contentful-extension-scripts build",
     "lint": "eslint ./ --ext .js,.jsx,.ts,.tsx",
     "test": "contentful-extension-scripts test --env=jsdom --watch",
     "test:coverage": "contentful-extension-scripts test --env=jsdom --coverage",

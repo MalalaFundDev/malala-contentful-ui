@@ -17,7 +17,7 @@ export class App extends React.Component {
     constructor(props) {
         super(props);
 
-        let value = props.sdk.field.getValue() ? props.sdk.field.getValue() : {articles: [this.defaultArticle()]};
+        let value = props.sdk.field.getValue() ? props.sdk.field.getValue() : {articles: []};
 
         this.state = {
             articles: value.articles,
@@ -51,7 +51,7 @@ export class App extends React.Component {
         let value = this.props.sdk.field.getValue();
 
         if (!value) {
-            value = {articles: [this.defaultArticle()]}
+            value = {articles: []}
         }
 
         this.setState({articles: value.articles});
@@ -146,10 +146,10 @@ export class App extends React.Component {
         )
     }
 
-    renderAddButton(idx) {
+    renderAddButton(idx = null) {
         const {articles} = this.state
 
-        if (articles.length >= 3 || idx + 1 !== articles.length) {
+        if (articles.length && (articles.length >= 3 || idx + 1 !== articles.length)) {
             return
         }
 
@@ -168,7 +168,7 @@ export class App extends React.Component {
     renderRemoveButton(idx) {
         const {articles} = this.state
 
-        if (articles.length <= 1) {
+        if (articles.length <= 0) {
             return
         }
 
@@ -223,7 +223,7 @@ export class App extends React.Component {
         return (
             <div>
                 { this.renderValidation() }
-                { articles.map(this.renderArticle.bind(this)) }
+                { articles.length ? articles.map(this.renderArticle.bind(this)) : this.renderAddButton() }
             </div>
         )
     }
