@@ -22,7 +22,7 @@ export class EditorField extends React.Component {
                     ['bold', 'italic', 'underline', 'strike'],        // toggled buttons
                     ['blockquote'],
                     [{ 'header': 1 }, { 'header': 2 }],               // custom button values
-                    [{ 'list': 'ordered'}, { 'list': 'bullet' }],
+                    [{ 'list': 'ordered'}, { 'list': 'bullet' }, 'link'],
                     [{ 'size': ['small', 'normal', 'large', 'huge'] }],  // custom dropdown
                     [{ 'header': [1, 2, 3, 4, 5, 6, false] }],
                     [{ 'align': [] }],
