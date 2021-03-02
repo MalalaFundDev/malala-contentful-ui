@@ -10,7 +10,6 @@ export class FieldGroup extends React.Component {
             { this.renderLabel() }
 
             { children }
-
         </div>
     }
 

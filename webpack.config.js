@@ -35,7 +35,8 @@ module.exports = {
 		new workboxPlugin.GenerateSW({
 			swDest: 'sw.js',
 			clientsClaim: true,
-			skipWaiting: false
+			skipWaiting: false,
+			maximumFileSizeToCacheInBytes: 999999999
 		})
 	],
 
@@ -55,5 +56,5 @@ module.exports = {
 
 	output: {
 		libraryTarget:'umd'
-	},
+	}
 };
