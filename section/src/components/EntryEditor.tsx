@@ -5,9 +5,10 @@ import {
     Tab,
     Form,
     HelpText,
-    Card
+    Card,
+    SectionHeading
 } from '@contentful/forma-36-react-components';
-import {EditorExtensionSDK, EntryFieldAPI, FieldAPI} from '@contentful/app-sdk';
+import {EditorExtensionSDK, EntryFieldAPI} from '@contentful/app-sdk';
 import {Field} from './Field'
 
 interface EditorProps {
@@ -20,7 +21,7 @@ interface FieldValues {
 
 const Entry = (props: EditorProps) => {
     const {entry, locales} = props.sdk
-    let tabNames = ['General', 'Heading', "Content", "Buttons", "Spacing", "Background"];
+    let tabNames = ['General', 'Heading', "Content", "Buttons", "Spacing", "Background", "Advanced"];
     let [tabs, setTabs] = useState([...tabNames])
     let [currentTab, setCurrentTab] = useState('General')
     let [fieldValues, setFieldValues] = useState<FieldValues>({})
@@ -136,7 +137,7 @@ const Entry = (props: EditorProps) => {
 
         {
             currentTab === 'Spacing' ? <div>
-                <Card className={"f36-padding--l f36-margin-bottom--l "}>
+                <Card className={"f36-padding--l f36-margin-bottom--l"}>
                     {renderField(entry.fields.topPadding)}
                     {renderField(entry.fields.bottomPadding)}
                 </Card>
@@ -148,14 +149,19 @@ const Entry = (props: EditorProps) => {
 
         {
             currentTab === 'Background' ? <div>
-                <Card className={"f36-padding--l"}>
-                    {renderField(entry.fields.backgroundColor)}
-                    {renderField(entry.fields.backgroundColorMobile)}
+                <Card className={"f36-padding--l f36-margin-bottom--l"}>
+                    {renderField(entry.fields.backgroundImage)}
+                    {renderField(entry.fields.mobileBackgroundImage)}
                     {renderField(entry.fields.backgroundStyle)}
                     {renderField(entry.fields.backgroundSize)}
                     <HelpText>
                         Example: 50px. Defaults to 100%.
                     </HelpText>
+                </Card>
+
+                <Card className={"f36-padding--l f36-margin-bottom--l"}>
+                    {renderField(entry.fields.backgroundColor)}
+                    {renderField(entry.fields.backgroundColorMobile)}
                 </Card>
             </div> : ''
         }
@@ -175,6 +181,17 @@ const Entry = (props: EditorProps) => {
                 </Card>
             </div> : ''
         }
+
+        {
+            currentTab === 'Advanced' ? <div>
+                <Card className={"f36-padding--l"}>
+                    <SectionHeading className={"f36-padding-bottom--l"}>For developer use only.</SectionHeading>
+                    {renderField(entry.fields.slug)}
+                    {renderField(entry.fields.customPath)}
+                </Card>
+            </div> : ''
+        }
+
     </Form>;
 };
 

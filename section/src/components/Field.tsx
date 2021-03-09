@@ -4,8 +4,10 @@ import {FieldGroup, FormLabel, ValidationMessage} from "@contentful/forma-36-rea
 import {SingleLineEditor} from "@contentful/field-editor-single-line"
 import {DropdownEditor} from "@contentful/field-editor-dropdown"
 import {RichTextEditor} from "@contentful/field-editor-rich-text";
-import {SingleEntryReferenceEditor} from '@contentful/field-editor-reference';
+import {SingleEntryReferenceEditor, SingleMediaEditor} from '@contentful/field-editor-reference';
 import { BooleanEditor } from '@contentful/field-editor-boolean';
+import { SlugEditor } from '@contentful/field-editor-slug';
+import { TagsEditor } from '@contentful/field-editor-tags';
 
 /* @ts-ignore */
 import {ButtonsField} from "malala-contentful-ui";
@@ -69,6 +71,12 @@ export function Field(props: FieldProps) {
                 return  <SingleEntryReferenceEditor viewType={"card"} sdk={fieldSdk} hasCardEditActions={true} parameters={{ instance: {} }} isInitiallyDisabled={false}/>
             case 'boolean':
                 return <BooleanEditor field={extendedField} isInitiallyDisabled={false}/>
+            case 'assetLinkEditor':
+                return  <SingleMediaEditor viewType={"card"} sdk={fieldSdk} parameters={{ instance: {} }} isInitiallyDisabled={false}/>
+            case 'slugEditor':
+                return <SlugEditor field={extendedField} isInitiallyDisabled={false} baseSdk={fieldSdk}/>
+            //case 'tagEditor':
+            //    return <TagsEditor field={extendedField} isInitiallyDisabled={true} />
             default:
                return <ValidationMessage>
                    {fieldEditorInterface.widgetId} is not implemented
