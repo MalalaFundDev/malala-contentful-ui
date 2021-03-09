@@ -66,6 +66,7 @@ export function Field(props: FieldProps) {
                                          isInitiallyDisabled={false}
                                          withCharValidation={false}/>
             case '39ArQsK2hqsWsIK0WiCGMm':
+            case 'buttons':
                 return  <ButtonsField sdk={fieldSdk}/>
             case 'entryCardEditor':
                 return  <SingleEntryReferenceEditor viewType={"card"} sdk={fieldSdk} hasCardEditActions={true} parameters={{ instance: {} }} isInitiallyDisabled={false}/>
