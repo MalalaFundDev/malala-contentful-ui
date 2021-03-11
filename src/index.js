@@ -4,8 +4,7 @@ import {EditorField} from "./editorField";
 import {ImageField} from "./imageField";
 import {Sortable} from "./sortable";
 import {FieldGroup} from './fieldGroup'
-
-console.log('buttonsField', ButtonsField)
+import {QAndAField} from "./qAndAField";
 
 export {
     ButtonsField,
@@ -13,5 +12,6 @@ export {
     EditorField,
     ImageField,
     Sortable,
-    FieldGroup
+    FieldGroup,
+    QAndAField
 }

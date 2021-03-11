@@ -46,8 +46,8 @@ const Entry = (props: EditorProps) => {
     }
 
 
-    function renderField(field: EntryFieldAPI) {
-        return <Field field={field} sdk={props.sdk} locales={locales}/>
+    function renderField(field: EntryFieldAPI, type : string | null = null, label : string | null = null) {
+        return <Field field={field} sdk={props.sdk} locales={locales} type={type} label={label}/>
     }
 
 
@@ -59,15 +59,15 @@ const Entry = (props: EditorProps) => {
         setTabs([...tabNames, tab])
     }
 
-    if (entry.fields.type.getValue() === 'Entry') {
-        addTab('Component')
-    } else if(entry.fields.type.getValue() === 'Columns') {
-        addTab('Columns')
-    } else {
+    //if (entry.fields.type.getValue() === 'Entry') {
+    //    addTab('Component')
+    //} else if(entry.fields.type.getValue() === 'Q&A') {
+    //    addTab('Q&A')
+    //} else {
         if (tabNames.length !== tabs.length) {
             setTabs([...tabNames])
         }
-    }
+    //}
 
 
     return <Form spacing="default" className="f36-margin--2xl">
@@ -90,9 +90,23 @@ const Entry = (props: EditorProps) => {
 
         {
             currentTab === 'General' ?  <div>
-                <Card className={"f36-padding--l  f36-margin-bottom--l"}>
+                <Card className={"f36-padding--l f36-margin-bottom--l"}>
                     {renderField(entry.fields.type)}
                 </Card>
+                {
+                    entry.fields.type.getValue() === 'Entry' ? <div>
+                        <Card className={"f36-padding--l f36-margin-bottom--l"}>
+                            {renderField(entry.fields.component)}
+                        </Card>
+                    </div> : ''
+                }
+                {
+                    entry.fields.type.getValue() === 'Q&A' ? <div>
+                        <Card className={"f36-padding--l f36-margin-bottom--l"}>
+                            {renderField(entry.fields.data, 'q&a', 'Q&A')}
+                        </Card>
+                    </div> : ''
+                }
                 <Card className={"f36-padding--l"}>
                     {renderField(entry.fields.hideOnMobile)}
                     {renderField(entry.fields.hideOnDesktop)}
@@ -162,22 +176,6 @@ const Entry = (props: EditorProps) => {
                 <Card className={"f36-padding--l f36-margin-bottom--l"}>
                     {renderField(entry.fields.backgroundColor)}
                     {renderField(entry.fields.backgroundColorMobile)}
-                </Card>
-            </div> : ''
-        }
-
-        {
-            currentTab === 'Component' ? <div>
-                <Card className={"f36-padding--l"}>
-                    {renderField(entry.fields.component)}
-                </Card>
-            </div> : ''
-        }
-
-        {
-            currentTab === 'Columns' ? <div>
-                <Card className={"f36-padding--l"}>
-                    This is where the columns will go.
                 </Card>
             </div> : ''
         }

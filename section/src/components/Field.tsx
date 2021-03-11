@@ -7,30 +7,36 @@ import {RichTextEditor} from "@contentful/field-editor-rich-text";
 import {SingleEntryReferenceEditor, SingleMediaEditor} from '@contentful/field-editor-reference';
 import { BooleanEditor } from '@contentful/field-editor-boolean';
 import { SlugEditor } from '@contentful/field-editor-slug';
-import { TagsEditor } from '@contentful/field-editor-tags';
+// import { TagsEditor } from '@contentful/field-editor-tags';
 
 /* @ts-ignore */
-import {ButtonsField} from "malala-contentful-ui";
+import {ButtonsField, QAndAField} from "malala-contentful-ui";
 
 interface FieldProps {
     sdk: EditorExtensionSDK,
     field: EntryFieldAPI;
     locales: LocalesAPI;
+    type: string | null | undefined,
+    label: string | null | undefined
 }
 
 export function Field(props: FieldProps) {
-    const {sdk, field} = props;
+    let {sdk, field, type, label} = props;
     const extendedField = (field as any) as FieldAPI;
     extendedField.onSchemaErrorsChanged = () => () => null;
     extendedField.setInvalid = () => null;
     extendedField.locale = sdk.locales.default;
     const key = 'field-' + field.id
 
+
     const fieldDetails = sdk.contentType.fields.find(({id}) => id === extendedField.id);
     const fieldEditorInterface = sdk.editor.editorInterface?.controls?.find(
         ({fieldId}) => fieldId === extendedField.id
     );
 
+    if (!type && fieldEditorInterface) {
+        type = fieldEditorInterface.widgetId
+    }
 
     let fieldSdk: any = sdk;
     fieldSdk.field = extendedField;
@@ -48,11 +54,11 @@ export function Field(props: FieldProps) {
 
 
     function renderField() {
-        if (!fieldDetails || !fieldEditorInterface || !fieldDetails) {
+        if (!fieldDetails || !fieldEditorInterface || !fieldDetails || !type) {
             return ''
         }
 
-        switch (fieldEditorInterface.widgetId) {
+        switch (type) {
             case 'dropdown':
                 return  <DropdownEditor field={extendedField}
                                         locales={sdk.locales}
@@ -78,6 +84,8 @@ export function Field(props: FieldProps) {
                 return <SlugEditor field={extendedField} isInitiallyDisabled={false} baseSdk={fieldSdk}/>
             //case 'tagEditor':
             //    return <TagsEditor field={extendedField} isInitiallyDisabled={true} />
+            case 'q&a':
+                return <QAndAField sdk={fieldSdk}/>
             default:
                return <ValidationMessage>
                    {fieldEditorInterface.widgetId} is not implemented
@@ -93,7 +101,7 @@ export function Field(props: FieldProps) {
 
 
     return <FieldGroup key={key} className={"f36-padding--s"}>
-        <FormLabel htmlFor={fieldDetails.name}>{fieldDetails.name}</FormLabel>
+        <FormLabel htmlFor={fieldDetails.name}>{label ? label : fieldDetails.name}</FormLabel>
         {renderField()}
     </FieldGroup>
 }
