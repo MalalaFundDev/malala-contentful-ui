@@ -2,6 +2,7 @@ import {EditorExtensionSDK, EntryFieldAPI, FieldAPI, LocalesAPI} from "@contentf
 import React from "react";
 import {FieldGroup, FormLabel, ValidationMessage} from "@contentful/forma-36-react-components";
 import {SingleLineEditor} from "@contentful/field-editor-single-line"
+import {MultipleLineEditor} from "@contentful/field-editor-multiple-line"
 import {DropdownEditor} from "@contentful/field-editor-dropdown"
 import {RichTextEditor} from "@contentful/field-editor-rich-text";
 import {SingleEntryReferenceEditor, SingleMediaEditor} from '@contentful/field-editor-reference';
@@ -40,7 +41,7 @@ export function Field(props: FieldProps) {
 
     let fieldSdk: any = sdk;
     fieldSdk.field = extendedField;
-    fieldSdk = Object.assign(fieldSdk, {
+    fieldSdk = Object.assign({}, fieldSdk, {
         parameters: {
             instance: {
                 permissions: {
@@ -71,6 +72,10 @@ export function Field(props: FieldProps) {
                                          locales={sdk.locales}
                                          isInitiallyDisabled={false}
                                          withCharValidation={false}/>
+            case 'multipleLine':
+                return <MultipleLineEditor field={extendedField}
+                                         locales={sdk.locales}
+                                         isInitiallyDisabled={false}/>
             case '39ArQsK2hqsWsIK0WiCGMm':
             case 'buttons':
                 return  <ButtonsField sdk={fieldSdk}/>
@@ -85,6 +90,7 @@ export function Field(props: FieldProps) {
             //case 'tagEditor':
             //    return <TagsEditor field={extendedField} isInitiallyDisabled={true} />
             case 'q&a':
+                console.log(fieldSdk.field)
                 return <QAndAField sdk={fieldSdk}/>
             default:
                return <ValidationMessage>

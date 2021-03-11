@@ -51,13 +51,13 @@ const Entry = (props: EditorProps) => {
     }
 
 
-    function addTab(tab: string) {
-        if (!tab || tabs.includes(tab)) {
-            return
-        }
-
-        setTabs([...tabNames, tab])
-    }
+    //function addTab(tab: string) {
+    //    if (!tab || tabs.includes(tab)) {
+    //        return
+    //    }
+    //
+    //    setTabs([...tabNames, tab])
+    //}
 
     //if (entry.fields.type.getValue() === 'Entry') {
     //    addTab('Component')
@@ -104,6 +104,13 @@ const Entry = (props: EditorProps) => {
                     entry.fields.type.getValue() === 'Q&A' ? <div>
                         <Card className={"f36-padding--l f36-margin-bottom--l"}>
                             {renderField(entry.fields.data, 'q&a', 'Q&A')}
+                        </Card>
+                    </div> : ''
+                }
+                {
+                    entry.fields.type.getValue() === 'Embed' ? <div>
+                        <Card className={"f36-padding--l f36-margin-bottom--l"}>
+                            {renderField(entry.fields.embed)}
                         </Card>
                     </div> : ''
                 }
