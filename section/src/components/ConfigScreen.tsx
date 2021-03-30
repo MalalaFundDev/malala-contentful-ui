@@ -50,7 +50,12 @@ export default class Config extends Component<ConfigProps, ConfigState> {
       parameters: this.state.parameters,
       // In case you don't want to submit any update to app
       // locations, you can just pass the currentState as is
-      targetState: currentState,
+      targetState: {
+        EditorInterface: {
+          ...currentState?.EditorInterface
+        }
+
+      },
     };
   };
 

@@ -20,6 +20,12 @@ It correctly bundles React in production mode and optimizes the build for the be
 The build is minified and the filenames include the hashes.
 Your app is ready to be deployed!
 
+## Hosting
+
+The app can be hosted directly from the following github pages URL:
+
+`https://malalafunddev.github.io/malala-contentful-ui/section/build/?VERSION`
+
 ## Libraries to use
 
 To make your app look and feel like Contentful use the following libraries:

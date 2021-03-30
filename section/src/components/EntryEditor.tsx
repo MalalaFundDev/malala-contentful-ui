@@ -21,15 +21,54 @@ interface FieldValues {
 
 const Entry = (props: EditorProps) => {
     const {entry, locales} = props.sdk
-    let tabNames = ['General', 'Heading', "Content", "Buttons", "Spacing", "Background", "Advanced"];
+    let tabNames: Array<string> = [
+        'General',
+        'Heading',
+        "Content",
+        "Buttons",
+        "Spacing",
+        "Background",
+        "Advanced"
+    ];
     let [tabs, setTabs] = useState([...tabNames])
     let [currentTab, setCurrentTab] = useState('General')
     let [fieldValues, setFieldValues] = useState<FieldValues>({})
+    let inUse: Array<string> = [
+        'title',
+        'slug',
+        'component',
+        'cssClasses',
+        'type',
+        'data',
+        'embed',
+        'hideOnMobile',
+        'hideOnDesktop',
+        'heading',
+        'headingStyle',
+        'headingAlignment',
+        'mobileHeadingAlignment',
+        'headingColor',
+        'content',
+        'contentColor',
+        'alignment',
+        'mobileContentAlignment',
+        'buttons',
+        'topPadding',
+        'bottomPadding',
+        'containerWidth',
+        'backgroundImage',
+        'mobileBackgroundImage',
+        'backgroundStyle',
+        'backgroundSize',
+        'backgroundColor',
+        'backgroundColorMobile',
+        'customPath'
+    ]
 
     //Keep track of the field values in state so we can rerender on field change
     if (!Object.values(fieldValues).length) {
         let fieldIdx = 0
-        setFieldValues(Object.values(entry.fields).reduce((fields: FieldValues, field) : FieldValues => {
+        setFieldValues(Object.values(entry.fields).reduce((fields: FieldValues, field): FieldValues => {
             fields[Object.keys(entry.fields)[fieldIdx]] = field.getValue()
             fieldIdx++;
             return fields
@@ -45,34 +84,26 @@ const Entry = (props: EditorProps) => {
         })
     }
 
+    let extraFields = Object.values(entry.fields).filter((field: EntryFieldAPI) => {
+        return !inUse.includes(field.id)
+    })
 
-    function renderField(field: EntryFieldAPI, type : string | null = null, label : string | null = null) {
+
+    function renderField(field: EntryFieldAPI, type: string | null = null, label: string | null = null) {
         return <Field field={field} sdk={props.sdk} locales={locales} type={type} label={label}/>
     }
 
 
-    //function addTab(tab: string) {
-    //    if (!tab || tabs.includes(tab)) {
-    //        return
-    //    }
-    //
-    //    setTabs([...tabNames, tab])
-    //}
 
-    //if (entry.fields.type.getValue() === 'Entry') {
-    //    addTab('Component')
-    //} else if(entry.fields.type.getValue() === 'Q&A') {
-    //    addTab('Q&A')
-    //} else {
-        if (tabNames.length !== tabs.length) {
-            setTabs([...tabNames])
-        }
-    //}
+    if (tabNames.length !== tabs.length) {
+        setTabs([...tabNames])
+    }
 
 
     return <Form spacing="default" className="f36-margin--2xl">
         <Card className={"f36-padding--l f36-margin-bottom--l"}>
             {renderField(entry.fields.title)}
+            {renderField(entry.fields.slug)}
         </Card>
 
         <Tabs
@@ -81,7 +112,8 @@ const Entry = (props: EditorProps) => {
         >
             {
                 tabs.map((tab) => {
-                    return <Tab selected={currentTab === tab} id={tab} onSelect={() => setCurrentTab(tab)} key={"tab-" + tab}>
+                    return <Tab selected={currentTab === tab} id={tab} onSelect={() => setCurrentTab(tab)}
+                                key={"tab-" + tab}>
                         {tab}
                     </Tab>;
                 })
@@ -114,10 +146,21 @@ const Entry = (props: EditorProps) => {
                         </Card>
                     </div> : ''
                 }
-                <Card className={"f36-padding--l"}>
+                <Card className={"f36-padding--l f36-margin-bottom--l"}>
                     {renderField(entry.fields.hideOnMobile)}
                     {renderField(entry.fields.hideOnDesktop)}
                 </Card>
+                {
+                    extraFields.length ?  <div>
+                        <Card className={"f36-padding--l f36-margin-bottom--l"}>
+                            {
+                                extraFields.map((field: EntryFieldAPI) => {
+                                    return renderField(field)
+                                })
+                            }
+                        </Card>
+                    </div> : ''
+                }
             </div>: ''
         }
 
@@ -151,7 +194,7 @@ const Entry = (props: EditorProps) => {
         {
             currentTab === 'Buttons' ? <div>
                 <Card className={"f36-padding--l"}>
-                    {renderField(entry.fields.buttons)}
+                    {renderField(entry.fields.buttons, 'buttons')}
                 </Card>
             </div> : ''
         }
@@ -190,9 +233,8 @@ const Entry = (props: EditorProps) => {
         {
             currentTab === 'Advanced' ? <div>
                 <Card className={"f36-padding--l"}>
-                    <SectionHeading className={"f36-padding-bottom--l"}>For developer use only.</SectionHeading>
-                    {renderField(entry.fields.slug)}
                     {renderField(entry.fields.customPath)}
+                    {renderField(entry.fields.cssClasses)}
                 </Card>
             </div> : ''
         }

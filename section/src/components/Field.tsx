@@ -1,113 +1,69 @@
-import {EditorExtensionSDK, EntryFieldAPI, FieldAPI, LocalesAPI} from "@contentful/app-sdk";
 import React from "react";
-import {FieldGroup, FormLabel, ValidationMessage} from "@contentful/forma-36-react-components";
-import {SingleLineEditor} from "@contentful/field-editor-single-line"
-import {MultipleLineEditor} from "@contentful/field-editor-multiple-line"
-import {DropdownEditor} from "@contentful/field-editor-dropdown"
-import {RichTextEditor} from "@contentful/field-editor-rich-text";
-import {SingleEntryReferenceEditor, SingleMediaEditor} from '@contentful/field-editor-reference';
-import { BooleanEditor } from '@contentful/field-editor-boolean';
-import { SlugEditor } from '@contentful/field-editor-slug';
-// import { TagsEditor } from '@contentful/field-editor-tags';
+import 'codemirror/lib/codemirror.css';
+import '@contentful/forma-36-react-components/dist/styles.css';
+import '@contentful/field-editor-date/styles/styles.css';
+import {
+    Field as BaseField,
+    FieldWrapper,
+} from '@contentful/default-field-editors';
+import { getEntryURL } from './shared';
+import {FormLabel} from "@contentful/forma-36-react-components";
 
+/* @ts-ignore */
+import {EditorExtensionSDK, EntryFieldAPI, FieldExtensionSDK, LocalesAPI} from "@contentful/app-sdk";
 /* @ts-ignore */
 import {ButtonsField, QAndAField} from "malala-contentful-ui";
 
 interface FieldProps {
-    sdk: EditorExtensionSDK,
     field: EntryFieldAPI;
     locales: LocalesAPI;
-    type: string | null | undefined,
-    label: string | null | undefined
+    sdk: EditorExtensionSDK;
+    type: any;
+    label: any;
 }
 
-export function Field(props: FieldProps) {
-    let {sdk, field, type, label} = props;
-    const extendedField = (field as any) as FieldAPI;
-    extendedField.onSchemaErrorsChanged = () => () => null;
-    extendedField.setInvalid = () => null;
-    extendedField.locale = sdk.locales.default;
-    const key = 'field-' + field.id
-
-
-    const fieldDetails = sdk.contentType.fields.find(({id}) => id === extendedField.id);
+export const Field: React.FC<FieldProps> = ({ field, locales, sdk, type, label }) => {
+    const extendedField = field.getForLocale(sdk.locales.default);
+    const fieldDetails = sdk.contentType.fields.find(({ id }) => id === extendedField.id);
     const fieldEditorInterface = sdk.editor.editorInterface?.controls?.find(
-        ({fieldId}) => fieldId === extendedField.id
+        ({ fieldId }) => fieldId === extendedField.id
     );
+    const widgetId = fieldEditorInterface?.widgetId ?? '';
 
-    if (!type && fieldEditorInterface) {
-        type = fieldEditorInterface.widgetId
+    if (!fieldDetails || !fieldEditorInterface) {
+        return null;
     }
 
-    let fieldSdk: any = sdk;
-    fieldSdk.field = extendedField;
-    fieldSdk = Object.assign({}, fieldSdk, {
+    const fieldSdk: FieldExtensionSDK = {
+        ...sdk,
+        field: extendedField,
+        locales,
         parameters: {
+            ...sdk.parameters,
             instance: {
-                permissions: {
-                    canAccessAssets: true,
-                    canCreateAssets: true,
-                    canCreateEntryOfContentType: () => true
-                }
-            }
-        }
-    });
+                ...sdk.parameters.instance,
+                ...fieldEditorInterface?.settings,
+            },
+        },
+    } as any;
 
+    const renderHeading = label ? () => {
+        return <FormLabel htmlFor={fieldDetails.name}>{label}</FormLabel>
+    } : undefined
 
-    function renderField() {
-        if (!fieldDetails || !fieldEditorInterface || !fieldDetails || !type) {
-            return ''
-        }
-
+    const renderField = function() {
         switch (type) {
-            case 'dropdown':
-                return  <DropdownEditor field={extendedField}
-                                        locales={sdk.locales}
-                                        isInitiallyDisabled={false}
-                                        key={key}/>
-            case 'richTextEditor':
-                return  <RichTextEditor sdk={fieldSdk}/>
-            case 'singleLine':
-                return <SingleLineEditor field={extendedField}
-                                         locales={sdk.locales}
-                                         isInitiallyDisabled={false}
-                                         withCharValidation={false}/>
-            case 'multipleLine':
-                return <MultipleLineEditor field={extendedField}
-                                         locales={sdk.locales}
-                                         isInitiallyDisabled={false}/>
             case '39ArQsK2hqsWsIK0WiCGMm':
             case 'buttons':
                 return  <ButtonsField sdk={fieldSdk}/>
-            case 'entryCardEditor':
-                return  <SingleEntryReferenceEditor viewType={"card"} sdk={fieldSdk} hasCardEditActions={true} parameters={{ instance: {} }} isInitiallyDisabled={false}/>
-            case 'boolean':
-                return <BooleanEditor field={extendedField} isInitiallyDisabled={false}/>
-            case 'assetLinkEditor':
-                return  <SingleMediaEditor viewType={"card"} sdk={fieldSdk} parameters={{ instance: {} }} isInitiallyDisabled={false}/>
-            case 'slugEditor':
-                return <SlugEditor field={extendedField} isInitiallyDisabled={false} baseSdk={fieldSdk}/>
-            //case 'tagEditor':
-            //    return <TagsEditor field={extendedField} isInitiallyDisabled={true} />
             case 'q&a':
-                console.log(fieldSdk.field)
                 return <QAndAField sdk={fieldSdk}/>
             default:
-               return <ValidationMessage>
-                   {fieldEditorInterface.widgetId} is not implemented
-               </ValidationMessage>
+                return <BaseField widgetId={widgetId} sdk={fieldSdk} isInitiallyDisabled={false} />
         }
     }
 
-    if (!fieldDetails || !fieldEditorInterface) {
-        return  <ValidationMessage>
-            Error displaying field.
-        </ValidationMessage>
-    }
-
-
-    return <FieldGroup key={key} className={"f36-padding--s"}>
-        <FormLabel htmlFor={fieldDetails.name}>{label ? label : fieldDetails.name}</FormLabel>
+    return  <FieldWrapper sdk={fieldSdk} name={fieldDetails.name} getEntryURL={getEntryURL} renderHeading={renderHeading}>
         {renderField()}
-    </FieldGroup>
-}
+    </FieldWrapper>
+};
