@@ -5,8 +5,7 @@ import {
     Tab,
     Form,
     HelpText,
-    Card,
-    SectionHeading
+    Card
 } from '@contentful/forma-36-react-components';
 import {EditorExtensionSDK, EntryFieldAPI} from '@contentful/app-sdk';
 import {Field} from './Field'
@@ -62,7 +61,9 @@ const Entry = (props: EditorProps) => {
         'backgroundSize',
         'backgroundColor',
         'backgroundColorMobile',
-        'customPath'
+        'customPath',
+        'contentLocation',
+        'secondaryContent'
     ]
 
     //Keep track of the field values in state so we can rerender on field change
@@ -182,8 +183,14 @@ const Entry = (props: EditorProps) => {
             currentTab === 'Content' ? <div>
                 <Card className={"f36-padding--l f36-margin-bottom--l"}>
                     {renderField(entry.fields.content)}
+                    {
+                        entry.fields.type.getValue() === 'Embed' ? renderField(entry.fields.secondaryContent) : ''
+                    }
                 </Card>
                 <Card className={"f36-padding--l"}>
+                    {
+                        entry.fields.type.getValue() === 'Embed' ? renderField(entry.fields.contentLocation) : ''
+                    }
                     {renderField(entry.fields.contentColor)}
                     {renderField(entry.fields.alignment)}
                     {renderField(entry.fields.mobileContentAlignment)}
