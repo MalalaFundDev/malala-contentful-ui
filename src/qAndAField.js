@@ -1,6 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import {TextField, ValidationMessage, FormLabel} from '@contentful/forma-36-react-components';
+import {TextField, ValidationMessage, FormLabel, HelpText} from '@contentful/forma-36-react-components';
 import {CollapseCard} from "./collapseCard";
 import {Sortable} from "./sortable";
 import {FieldGroup} from "./fieldGroup";
@@ -15,7 +15,8 @@ export class QAndAField extends React.Component {
     get defaultItem() {
         return Object.assign({}, {
             question: '',
-            answer: ''
+            answer: '',
+            anchor: ''
         })
     }
 
@@ -97,7 +98,7 @@ export class QAndAField extends React.Component {
                               onSortDown={() => Sortable.moveDown(idx)}
                 >
 
-                    <TextField id={`question-${idx}`} name="question" labelText={'Question'} value={item.question} onChange={(e) => this.onChange('question', idx, e.currentTarget.value)} required />
+                    <TextField id={`question-${idx}`} name="questions" labelText={'Question'} value={item.question} onChange={(e) => this.onChange('question', idx, e.currentTarget.value)} required />
 
                     <FieldGroup>
                         <FormLabel htmlFor={`answer-${idx}`} required>
@@ -105,6 +106,11 @@ export class QAndAField extends React.Component {
                         </FormLabel>
                         <EditorField vid={`answer-${idx}`} name="answer" value={item.answer} onChange={value => this.onChange('answer', idx, value)} required />
                     </FieldGroup>
+
+                    <TextField id={`anchor-${idx}`} name="anchor" labelText={'Anchor'} value={item.anchor} onChange={(e) => this.onChange('anchor', idx, e.currentTarget.value)} />
+                    <HelpText>
+                        malala.org/page#{item.anchor ? item.anchor : 'anchor'}
+                    </HelpText>
 
                     <div style={{marginTop: "15px"}}>
                         { Sortable.renderAddButton(idx) }

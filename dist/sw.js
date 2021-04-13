@@ -109,7 +109,7 @@ define("./sw.js",['./workbox-decc7022'], function (workbox) { 'use strict';
 
   workbox.precacheAndRoute([{
     "url": "main.js",
-    "revision": "8c26ffe696b4c81792eaca1a0b77b477"
+    "revision": "3f275d6eac6968afc4ca9ee569a84d18"
   }], {});
 
 });
