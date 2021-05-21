@@ -7,7 +7,8 @@ import {
     TableCell,
     TableBody,
     TableRow,
-    FormLabel
+    FormLabel,
+    CheckboxField, SelectField, Option
 } from '@contentful/forma-36-react-components';
 import {CollapseCard} from "./collapseCard";
 import {Sortable} from "./sortable";
@@ -28,6 +29,10 @@ export class AccentsField extends React.Component {
             bottom: '',
             left: '',
             image: '',
+            desktop: true,
+            tablet: true,
+            mobile: true,
+            speed: '1',
             z: '1'
         })
     }
@@ -121,6 +126,33 @@ export class AccentsField extends React.Component {
                                     <TextField id={`z-${idx}`} name="z" labelText={'Stack order'} value={item.z}
                                                onChange={(e) => this.onChange('z', idx, e.currentTarget.value)}
                                                helpText="Higher numbers will display on top"/>
+                                </FieldGroup>
+
+                                <FieldGroup>
+                                    <FormLabel htmlFor={`show-on-${idx}`}>
+                                        Show on
+                                    </FormLabel>
+                                    <div id={`show-on-${idx}`}>
+                                        <CheckboxField id={`desktop-${idx}`} labelText={'Desktop'}  name="desktop" checked={item.desktop}
+                                                  onChange={(e) => this.onChange('desktop', idx, e.currentTarget.checked)} style={{"marginRight": "5px"}}
+                                              />
+
+                                        <CheckboxField id={`tablet-${idx}`} labelText={'Tablet'}  name="tablet" checked={item.tablet}
+                                                       onChange={(e) => this.onChange('tablet', idx, e.currentTarget.checked)}  style={{"marginRight": "5px"}}
+                                        />
+
+                                        <CheckboxField id={`mobile-${idx}`} labelText={'Mobile'}  name="mobile" checked={item.mobile}
+                                                       onChange={(e) => this.onChange('mobile', idx, e.currentTarget.checked)}
+                                        />
+                                    </div>
+                                </FieldGroup>
+
+                                <FieldGroup>
+                                    <SelectField id={`speed-${idx}`} name={"speed"} labelText={"Speed"} value={item.speed} onChange={(e) => this.onChange('speed', idx, e.currentTarget.value)}>
+                                        <Option value={'1'}>1</Option>
+                                        <Option value={'2'}>2</Option>
+                                        <Option value={'3'}>3</Option>
+                                    </SelectField>
                                 </FieldGroup>
                             </TableCell>
                             <TableCell align={"center"}>
