@@ -27,6 +27,7 @@ const Entry = (props: EditorProps) => {
         "Buttons",
         "Spacing",
         "Background",
+        "Accents",
         "Advanced"
     ];
     let [tabs, setTabs] = useState([...tabNames])
@@ -63,7 +64,8 @@ const Entry = (props: EditorProps) => {
         'backgroundColorMobile',
         'customPath',
         'contentLocation',
-        'secondaryContent'
+        'secondaryContent',
+        'accents'
     ]
 
     //Keep track of the field values in state so we can rerender on field change
@@ -91,7 +93,7 @@ const Entry = (props: EditorProps) => {
 
 
     function renderField(field: EntryFieldAPI, type: string | null = null, label: string | null = null) {
-        return <Field field={field} sdk={props.sdk} locales={locales} type={type} label={label}/>
+        return <Field field={field} sdk={props.sdk} locales={locales} type={type} label={label} key={'field-' + field.id}/>
     }
 
 
@@ -233,6 +235,14 @@ const Entry = (props: EditorProps) => {
                 <Card className={"f36-padding--l f36-margin-bottom--l"}>
                     {renderField(entry.fields.backgroundColor)}
                     {renderField(entry.fields.backgroundColorMobile)}
+                </Card>
+            </div> : ''
+        }
+
+        {
+            currentTab === 'Accents' ? <div>
+                <Card className={"f36-padding--l f36-margin-bottom--l"}>
+                    {renderField(entry.fields.accents, 'accents')}
                 </Card>
             </div> : ''
         }

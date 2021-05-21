@@ -1,3 +1,4 @@
+import {AccentsField} from './AccentsField'
 import {Buttons as ButtonsField} from './buttons'
 import {CollapseCard} from "./collapseCard";
 import {EditorField} from "./editorField";
@@ -7,11 +8,12 @@ import {FieldGroup} from './fieldGroup'
 import {QAndAField} from "./qAndAField";
 
 export {
+    AccentsField,
     ButtonsField,
     CollapseCard,
     EditorField,
     ImageField,
     Sortable,
     FieldGroup,
-    QAndAField
+    QAndAField,
 }

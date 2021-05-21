@@ -12,7 +12,7 @@ import {FormLabel} from "@contentful/forma-36-react-components";
 /* @ts-ignore */
 import {EditorExtensionSDK, EntryFieldAPI, FieldExtensionSDK, LocalesAPI} from "@contentful/app-sdk";
 /* @ts-ignore */
-import {ButtonsField, QAndAField} from "malala-contentful-ui";
+import {ButtonsField, QAndAField, AccentsField} from "malala-contentful-ui";
 
 interface FieldProps {
     field: EntryFieldAPI;
@@ -54,6 +54,8 @@ export const Field: React.FC<FieldProps> = ({ field, locales, sdk, type, label }
     const renderField = function() {
         switch (type) {
             case '39ArQsK2hqsWsIK0WiCGMm':
+            case 'accents':
+                return  <AccentsField sdk={fieldSdk}/>
             case 'buttons':
                 return  <ButtonsField sdk={fieldSdk}/>
             case 'q&a':
