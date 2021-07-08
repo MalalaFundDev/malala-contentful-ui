@@ -46,6 +46,9 @@ const Entry = (props: EditorProps) => {
         'heading',
         'headingStyle',
         'headingAlignment',
+        'innerColor',
+        'leftPadding',
+        'rightPadding',
         'mobileHeadingAlignment',
         'headingColor',
         'content',
@@ -65,7 +68,9 @@ const Entry = (props: EditorProps) => {
         'customPath',
         'contentLocation',
         'secondaryContent',
-        'accents'
+        'accents',
+        'height',
+        'backgroundVideo'
     ]
 
     //Keep track of the field values in state so we can rerender on field change
@@ -213,8 +218,11 @@ const Entry = (props: EditorProps) => {
                 <Card className={"f36-padding--l f36-margin-bottom--l"}>
                     {renderField(entry.fields.topPadding)}
                     {renderField(entry.fields.bottomPadding)}
+                    {renderField(entry.fields.leftPadding)}
+                    {renderField(entry.fields.rightPadding)}
                 </Card>
                 <Card className={"f36-padding--l"}>
+                    {renderField(entry.fields.height)}
                     {renderField(entry.fields.containerWidth)}
                 </Card>
             </div> : ''
@@ -224,6 +232,7 @@ const Entry = (props: EditorProps) => {
             currentTab === 'Background' ? <div>
                 <Card className={"f36-padding--l f36-margin-bottom--l"}>
                     {renderField(entry.fields.backgroundImage)}
+                    {renderField(entry.fields.backgroundVideo)}
                     {renderField(entry.fields.mobileBackgroundImage)}
                     {renderField(entry.fields.backgroundStyle)}
                     {renderField(entry.fields.backgroundSize)}
@@ -233,6 +242,7 @@ const Entry = (props: EditorProps) => {
                 </Card>
 
                 <Card className={"f36-padding--l f36-margin-bottom--l"}>
+                    {renderField(entry.fields.innerColor)}
                     {renderField(entry.fields.backgroundColor)}
                     {renderField(entry.fields.backgroundColorMobile)}
                 </Card>
