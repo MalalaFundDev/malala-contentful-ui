@@ -32,6 +32,7 @@ export class AccentsField extends React.Component {
             desktop: true,
             tablet: true,
             mobile: true,
+            parallax: true,
             speed: '1',
             z: '1'
         })
@@ -111,7 +112,6 @@ export class AccentsField extends React.Component {
                           canSortDown={idx + 1 !== items.length}
                           onSortDown={() => Sortable.moveDown(idx)}
             >
-
                 <Table>
                     <TableBody>
                         <TableRow>
@@ -148,12 +148,18 @@ export class AccentsField extends React.Component {
                                 </FieldGroup>
 
                                 <FieldGroup>
+                                    <CheckboxField id={`parallax-${idx}`} labelText={'Enable parallax scrolling?'}  name="parallax" checked={item.parallax !== false}
+                                                   onChange={(e) => this.onChange('parallax', idx, e.currentTarget.checked)} style={{"marginRight": "5px"}}
+                                    />
+                                </FieldGroup>
+
+                                {item.parallax !== false ? <FieldGroup>
                                     <SelectField id={`speed-${idx}`} name={"speed"} labelText={"Speed"} value={item.speed} onChange={(e) => this.onChange('speed', idx, e.currentTarget.value)}>
                                         <Option value={'1'}>1</Option>
                                         <Option value={'2'}>2</Option>
                                         <Option value={'3'}>3</Option>
                                     </SelectField>
-                                </FieldGroup>
+                                </FieldGroup> : ''}
                             </TableCell>
                             <TableCell align={"center"}>
                                 <FieldGroup>
