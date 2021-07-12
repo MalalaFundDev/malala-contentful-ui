@@ -47,8 +47,10 @@ const Entry = (props: EditorProps) => {
         'headingStyle',
         'headingAlignment',
         'innerColor',
-        'leftPadding',
-        'rightPadding',
+        'innerTopPadding',
+        'innerBottomPadding',
+        'innerLeftPadding',
+        'innerRightPadding',
         'mobileHeadingAlignment',
         'headingColor',
         'content',
@@ -218,8 +220,10 @@ const Entry = (props: EditorProps) => {
                 <Card className={"f36-padding--l f36-margin-bottom--l"}>
                     {renderField(entry.fields.topPadding)}
                     {renderField(entry.fields.bottomPadding)}
-                    {renderField(entry.fields.leftPadding)}
-                    {renderField(entry.fields.rightPadding)}
+                    {renderField(entry.fields.innerTopPadding)}
+                    {renderField(entry.fields.innerBottomPadding)}
+                    {renderField(entry.fields.innerLeftPadding)}
+                    {renderField(entry.fields.innerRightPadding)}
                 </Card>
                 <Card className={"f36-padding--l"}>
                     {renderField(entry.fields.height)}
