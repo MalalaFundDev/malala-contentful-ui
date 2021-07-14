@@ -8,7 +8,12 @@ All extensions can be built and deployed using [Contentful Create Extension](htt
 Extensions can be deployed directly to contentful if they are small enough using `npm run deploy`. If they are too large, they should be deployed using the self-hosted URLs above. 
   
 This package hosts the following UI extensions:   
-  
+
+### Accents
+Parallax Accent images
+
+Self-host URL: https://malalafunddev.github.io/malala-contentful-ui/accents/build
+
 ### Article Links
 Repeatable article title, source and urls.   
 

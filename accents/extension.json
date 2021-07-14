@@ -1,0 +1,8 @@
+{
+  "id": "accents",
+  "name": "accents",
+  "srcdoc": "./build/index.html",
+  "fieldTypes": [
+    "Object"
+  ]
+}
