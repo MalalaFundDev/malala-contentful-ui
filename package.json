@@ -1,6 +1,6 @@
 {
   "name": "malala-contentful-ui",
-  "version": "1.5.1",
+  "version": "1.5.2",
   "description": "My webpack project",
   "main": "dist/main.js",
   "scripts": {
