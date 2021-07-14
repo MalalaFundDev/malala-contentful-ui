@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {
+    Asset,
     TextField,
     ValidationMessage,
     Table,
@@ -8,12 +9,14 @@ import {
     TableBody,
     TableRow,
     FormLabel,
-    CheckboxField, SelectField, Option
+    CheckboxField, SelectField, Option,
+    Icon
 } from '@contentful/forma-36-react-components';
 import {CollapseCard} from "./collapseCard";
 import {Sortable} from "./sortable";
 import {FieldGroup} from "./fieldGroup";
 import {ImageField} from './imageField'
+import uniqid from 'uniqid'
 
 export class AccentsField extends React.Component {
     static propTypes = {
@@ -23,6 +26,7 @@ export class AccentsField extends React.Component {
 
     get defaultItem() {
         return Object.assign({}, {
+            key: uniqid(),
             width: '50px',
             top: '',
             right: '',
@@ -43,9 +47,22 @@ export class AccentsField extends React.Component {
         super(props);
 
         let items = props.sdk.field.getValue() ? props.sdk.field.getValue() : [this.defaultItem];
+        items = items.map(item => {
+            if (!item.key) {
+                item.key = uniqid()
+            }
+            return item
+        })
+        let itemMeta = items.reduce((carry, item) => {
+            carry[item.key] = {
+                open: false
+            }
+            return carry
+        }, {})
 
         this.state = {
             items,
+            itemMeta,
             error: null
         }
     }
@@ -71,6 +88,22 @@ export class AccentsField extends React.Component {
 
         this.save(items)
     };
+
+    openItem(item) {
+        let {itemMeta} = this.state;
+
+        itemMeta[item.key].open = true
+
+        this.setState(itemMeta)
+    }
+
+    closeItem(item) {
+        let {itemMeta} = this.state;
+
+        itemMeta[item.key].open = false
+
+        this.setState(itemMeta)
+    }
 
     onSortChange(items) {
         this.save(items)
@@ -99,11 +132,11 @@ export class AccentsField extends React.Component {
     }
 
     renderItem({item, idx, Sortable}) {
-        const {items} = this.state
+        const {items, itemMeta} = this.state
 
         return (
             <CollapseCard key={'item-' + idx}
-                          heading='Item'
+                          heading='Image'
                           placeholder={item.title}
                           opened={!item.title}
                           sortable={true}
@@ -112,119 +145,7 @@ export class AccentsField extends React.Component {
                           canSortDown={idx + 1 !== items.length}
                           onSortDown={() => Sortable.moveDown(idx)}
             >
-                <Table>
-                    <TableBody>
-                        <TableRow>
-                            <TableCell>
-                                <FieldGroup>
-                                    <TextField id={`width-${idx}`} name="width" labelText={'width'} value={item.width}
-                                               onChange={(e) => this.onChange('width', idx, e.currentTarget.value)}
-                                               helpText="Example: 50px" required/>
-                                </FieldGroup>
-
-                                <FieldGroup>
-                                    <TextField id={`z-${idx}`} name="z" labelText={'Stack order'} value={item.z}
-                                               onChange={(e) => this.onChange('z', idx, e.currentTarget.value)}
-                                               helpText="Higher numbers will display on top"/>
-                                </FieldGroup>
-
-                                <FieldGroup>
-                                    <FormLabel htmlFor={`show-on-${idx}`}>
-                                        Show on
-                                    </FormLabel>
-                                    <div id={`show-on-${idx}`}>
-                                        <CheckboxField id={`desktop-${idx}`} labelText={'Desktop'}  name="desktop" checked={item.desktop}
-                                                  onChange={(e) => this.onChange('desktop', idx, e.currentTarget.checked)} style={{"marginRight": "5px"}}
-                                              />
-
-                                        <CheckboxField id={`tablet-${idx}`} labelText={'Tablet'}  name="tablet" checked={item.tablet}
-                                                       onChange={(e) => this.onChange('tablet', idx, e.currentTarget.checked)}  style={{"marginRight": "5px"}}
-                                        />
-
-                                        <CheckboxField id={`mobile-${idx}`} labelText={'Mobile'}  name="mobile" checked={item.mobile}
-                                                       onChange={(e) => this.onChange('mobile', idx, e.currentTarget.checked)}
-                                        />
-                                    </div>
-                                </FieldGroup>
-
-                                <FieldGroup>
-                                    <CheckboxField id={`parallax-${idx}`} labelText={'Enable parallax scrolling?'}  name="parallax" checked={item.parallax !== false}
-                                                   onChange={(e) => this.onChange('parallax', idx, e.currentTarget.checked)} style={{"marginRight": "5px"}}
-                                    />
-                                </FieldGroup>
-
-                                {item.parallax !== false ? <FieldGroup>
-                                    <SelectField id={`speed-${idx}`} name={"speed"} labelText={"Speed"} value={item.speed} onChange={(e) => this.onChange('speed', idx, e.currentTarget.value)}>
-                                        <Option value={'1'}>1</Option>
-                                        <Option value={'2'}>2</Option>
-                                        <Option value={'3'}>3</Option>
-                                    </SelectField>
-                                </FieldGroup> : ''}
-                            </TableCell>
-                            <TableCell align={"center"}>
-                                <FieldGroup>
-                                    <div style={{"textAlign": "left"}}>
-                                        <FormLabel htmlFor={'position'}>
-                                            Position
-                                        </FormLabel>
-                                    </div>
-
-
-                                    <table style={{maxWidth: '300px'}} id={'position'}>
-                                        <tbody>
-                                        <tr>
-                                            <td/>
-                                            <td>
-                                                <TextField id={`top-${idx}`} name="Top" labelText={'Top'}
-                                                           value={item.top}
-                                                           onChange={(e) => this.onChange('top', idx, e.currentTarget.value)}
-                                                           helpText="Example: 10%"/>
-                                            </td>
-                                            <td/>
-                                        </tr>
-
-                                        <tr>
-                                            <td>
-                                                <TextField id={`left-${idx}`} name="left" labelText={'Left'}
-                                                           value={item.left}
-                                                           onChange={(e) => this.onChange('left', idx, e.currentTarget.value)}/>
-                                            </td>
-                                            <td/>
-                                            <td>
-                                                <TextField id={`right-${idx}`} name="right" labelText={'Right'}
-                                                           value={item.right}
-                                                           onChange={(e) => this.onChange('right', idx, e.currentTarget.value)}/>
-                                            </td>
-                                        </tr>
-
-                                        <tr>
-                                            <td/>
-                                            <td>
-                                                <TextField id={`bottom-${idx}`} name="bottom" labelText={'Bottom'}
-                                                           value={item.bottom}
-                                                           onChange={(e) => this.onChange('bottom', idx, e.currentTarget.value)}/>
-                                            </td>
-                                            <td/>
-                                        </tr>
-                                        </tbody>
-                                    </table>
-
-
-                                </FieldGroup>
-                            </TableCell>
-                            <TableCell>
-                                <FormLabel htmlFor={'image-id'}>
-                                    Image
-                                </FormLabel>
-                                <FieldGroup>
-                                    <ImageField id={`image-${idx}`} sdk={this.props.sdk}
-                                                onChange={(value) => this.onChange('image', idx, value)}
-                                                value={item.image}/>
-                                </FieldGroup>
-                            </TableCell>
-                        </TableRow>
-                    </TableBody>
-                </Table>
+                {itemMeta[item.key].open ? this.renderSettings(item, idx) : this.renderImage(item, idx)}
 
                 <div style={{marginTop: "15px"}}>
                     {Sortable.renderAddButton(idx)}
@@ -233,6 +154,133 @@ export class AccentsField extends React.Component {
 
             </CollapseCard>
         )
+    }
+
+    renderImage(item, idx) {
+        return <FieldGroup>
+            <div style={{display: "flex"}}>
+                <ImageField id={`image-${idx}`} sdk={this.props.sdk}
+                            onChange={(value) => this.onChange('image', idx, value)}
+                            value={item.image}/>
+                <div style={{paddingLeft: '15px', paddingRight: '15px'}}>
+                    <Icon icon="Settings" size="small" onClick={() => this.openItem(item)}/>
+                </div>
+            </div>
+
+        </FieldGroup>
+    }
+
+    renderSettings(item, idx) {
+        return <div>
+            <Table style={{width: '100%'}}>
+                <TableBody>
+                    <TableRow>
+                        <TableCell colSpan={2} onClick={() => this.closeItem(item)}>
+                            {item.image ? <Asset src={item.image.fields.file['en-US'].url} style={{width: "50px"}}/> : <Icon icon="Asset" size="large" />}
+                        </TableCell>
+                    </TableRow>
+                    <TableRow>
+                        <TableCell>
+                            <FieldGroup>
+                                <TextField id={`width-${idx}`} name="width" labelText={'width'} value={item.width}
+                                           onChange={(e) => this.onChange('width', idx, e.currentTarget.value)}
+                                           helpText="Example: 50px" required/>
+                            </FieldGroup>
+
+                            <FieldGroup>
+                                <TextField id={`z-${idx}`} name="z" labelText={'Stack order'} value={item.z}
+                                           onChange={(e) => this.onChange('z', idx, e.currentTarget.value)}
+                                           helpText="Higher numbers will display on top"/>
+                            </FieldGroup>
+
+                            <FieldGroup>
+                                <FormLabel htmlFor={`show-on-${idx}`}>
+                                    Show on
+                                </FormLabel>
+                                <div id={`show-on-${idx}`}>
+                                    <CheckboxField id={`desktop-${idx}`} labelText={'Desktop'}  name="desktop" checked={item.desktop}
+                                                   onChange={(e) => this.onChange('desktop', idx, e.currentTarget.checked)} style={{"marginRight": "5px"}}
+                                    />
+
+                                    <CheckboxField id={`tablet-${idx}`} labelText={'Tablet'}  name="tablet" checked={item.tablet}
+                                                   onChange={(e) => this.onChange('tablet', idx, e.currentTarget.checked)}  style={{"marginRight": "5px"}}
+                                    />
+
+                                    <CheckboxField id={`mobile-${idx}`} labelText={'Mobile'}  name="mobile" checked={item.mobile}
+                                                   onChange={(e) => this.onChange('mobile', idx, e.currentTarget.checked)}
+                                    />
+                                </div>
+                            </FieldGroup>
+
+                            <FieldGroup>
+                                <CheckboxField id={`parallax-${idx}`} labelText={'Enable parallax scrolling?'}  name="parallax" checked={item.parallax !== false}
+                                               onChange={(e) => this.onChange('parallax', idx, e.currentTarget.checked)} style={{"marginRight": "5px"}}
+                                />
+                            </FieldGroup>
+
+                            {item.parallax !== false ? <FieldGroup>
+                                <SelectField id={`speed-${idx}`} name={"speed"} labelText={"Speed"} value={item.speed} onChange={(e) => this.onChange('speed', idx, e.currentTarget.value)}>
+                                    <Option value={'1'}>1</Option>
+                                    <Option value={'2'}>2</Option>
+                                    <Option value={'3'}>3</Option>
+                                </SelectField>
+                            </FieldGroup> : ''}
+                        </TableCell>
+                        <TableCell align={"center"}>
+                            <FieldGroup>
+                                <div style={{"textAlign": "left"}}>
+                                    <FormLabel htmlFor={'position'}>
+                                        Position
+                                    </FormLabel>
+                                </div>
+
+
+                                <table style={{maxWidth: '300px'}} id={'position'}>
+                                    <tbody>
+                                    <tr>
+                                        <td/>
+                                        <td>
+                                            <TextField id={`top-${idx}`} name="Top" labelText={'Top'}
+                                                       value={item.top}
+                                                       onChange={(e) => this.onChange('top', idx, e.currentTarget.value)}
+                                                       helpText="Example: 10%"/>
+                                        </td>
+                                        <td/>
+                                    </tr>
+
+                                    <tr>
+                                        <td>
+                                            <TextField id={`left-${idx}`} name="left" labelText={'Left'}
+                                                       value={item.left}
+                                                       onChange={(e) => this.onChange('left', idx, e.currentTarget.value)}/>
+                                        </td>
+                                        <td/>
+                                        <td>
+                                            <TextField id={`right-${idx}`} name="right" labelText={'Right'}
+                                                       value={item.right}
+                                                       onChange={(e) => this.onChange('right', idx, e.currentTarget.value)}/>
+                                        </td>
+                                    </tr>
+
+                                    <tr>
+                                        <td/>
+                                        <td>
+                                            <TextField id={`bottom-${idx}`} name="bottom" labelText={'Bottom'}
+                                                       value={item.bottom}
+                                                       onChange={(e) => this.onChange('bottom', idx, e.currentTarget.value)}/>
+                                        </td>
+                                        <td/>
+                                    </tr>
+                                    </tbody>
+                                </table>
+
+
+                            </FieldGroup>
+                        </TableCell>
+                    </TableRow>
+                </TableBody>
+            </Table>
+        </div>
     }
 
     renderValidation() {
