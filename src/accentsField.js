@@ -38,7 +38,8 @@ export class AccentsField extends React.Component {
             mobile: true,
             parallax: true,
             speed: '1',
-            z: '1'
+            z: '1',
+            open: false
         })
     }
 
@@ -51,18 +52,12 @@ export class AccentsField extends React.Component {
             if (!item.key) {
                 item.key = uniqid()
             }
+            item.open = false
             return item
         })
-        let itemMeta = items.reduce((carry, item) => {
-            carry[item.key] = {
-                open: false
-            }
-            return carry
-        }, {})
 
         this.state = {
             items,
-            itemMeta,
             error: null
         }
     }
@@ -90,19 +85,23 @@ export class AccentsField extends React.Component {
     };
 
     openItem(item) {
-        let {itemMeta} = this.state;
-
-        itemMeta[item.key].open = true
-
-        this.setState(itemMeta)
+        let {items} = this.state;
+        items = items.map((i) => {
+            if (i.key === item.key) {
+                i.open = true
+            }
+        })
+        this.setState(items)
     }
 
     closeItem(item) {
-        let {itemMeta} = this.state;
-
-        itemMeta[item.key].open = false
-
-        this.setState(itemMeta)
+        let {items} = this.state;
+        items = items.map((i) => {
+            if (i.key === item.key) {
+                i.open = false
+            }
+        })
+        this.setState(items)
     }
 
     onSortChange(items) {
@@ -132,7 +131,7 @@ export class AccentsField extends React.Component {
     }
 
     renderItem({item, idx, Sortable}) {
-        const {items, itemMeta} = this.state
+        const {items} = this.state
 
         return (
             <CollapseCard key={'item-' + idx}
@@ -145,7 +144,7 @@ export class AccentsField extends React.Component {
                           canSortDown={idx + 1 !== items.length}
                           onSortDown={() => Sortable.moveDown(idx)}
             >
-                {itemMeta[item.key].open ? this.renderSettings(item, idx) : this.renderImage(item, idx)}
+                {item.open ? this.renderSettings(item, idx) : this.renderImage(item, idx)}
 
                 <div style={{marginTop: "15px"}}>
                     {Sortable.renderAddButton(idx)}
