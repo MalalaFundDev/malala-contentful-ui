@@ -28,6 +28,7 @@ export class AccentsField extends React.Component {
         return Object.assign({}, {
             key: uniqid(),
             width: '50px',
+            height: '50px',
             top: '',
             right: '',
             bottom: '',
@@ -185,6 +186,13 @@ export class AccentsField extends React.Component {
                                            onChange={(e) => this.onChange('width', idx, e.currentTarget.value)}
                                            helpText="Example: 50px" required/>
                             </FieldGroup>
+
+                            <FieldGroup>
+                                <TextField id={`height-${idx}`} name="height" labelText={'height'} value={item.height}
+                                           onChange={(e) => this.onChange('height', idx, e.currentTarget.value)}
+                                           helpText="Example: 50px" required/>
+                            </FieldGroup>
+
 
                             <FieldGroup>
                                 <TextField id={`z-${idx}`} name="z" labelText={'Stack order'} value={item.z}
