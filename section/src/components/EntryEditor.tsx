@@ -72,7 +72,10 @@ const Entry = (props: EditorProps) => {
         'secondaryContent',
         'accents',
         'height',
-        'backgroundVideo'
+        'backgroundVideo',
+        "fontSize",
+        "accentPosition",
+        "images"
     ]
 
     //Keep track of the field values in state so we can rerender on field change
@@ -156,6 +159,13 @@ const Entry = (props: EditorProps) => {
                         </Card>
                     </div> : ''
                 }
+                {
+                    entry.fields.type.getValue() === 'Images' ? <div>
+                        <Card className={"f36-padding--l f36-margin-bottom--l"}>
+                            {renderField(entry.fields.images)}
+                        </Card>
+                    </div> : ''
+                }
                 <Card className={"f36-padding--l f36-margin-bottom--l"}>
                     {renderField(entry.fields.hideOnMobile)}
                     {renderField(entry.fields.hideOnDesktop)}
@@ -200,6 +210,7 @@ const Entry = (props: EditorProps) => {
                     {
                         entry.fields.type.getValue() === 'Embed' ? renderField(entry.fields.contentLocation) : ''
                     }
+                    {renderField(entry.fields.fontSize)}
                     {renderField(entry.fields.contentColor)}
                     {renderField(entry.fields.alignment)}
                     {renderField(entry.fields.mobileContentAlignment)}
@@ -256,6 +267,7 @@ const Entry = (props: EditorProps) => {
         {
             currentTab === 'Accents' ? <div>
                 <Card className={"f36-padding--l f36-margin-bottom--l"}>
+                    {renderField(entry.fields.accentPosition)}
                     {renderField(entry.fields.accents, 'accents')}
                 </Card>
             </div> : ''
