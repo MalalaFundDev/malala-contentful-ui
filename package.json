@@ -1,6 +1,6 @@
 {
   "name": "malala-contentful-ui",
-  "version": "1.6.0",
+  "version": "1.7.0",
   "description": "My webpack project",
   "main": "dist/main.js",
   "scripts": {
@@ -33,7 +33,7 @@
   },
   "dependencies": {
     "@contentful/forma-36-fcss": "^0.0.35",
-    "@contentful/forma-36-react-components": "^3.37.0",
+    "@contentful/forma-36-react-components": "^3.40.7",
     "@contentful/forma-36-tokens": "^0.5.2",
     "array-move": "^2.2.2",
     "prop-types": "^15.7.2",

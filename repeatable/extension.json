@@ -1,0 +1,44 @@
+{
+  "id": "repeatable",
+  "name": "repeatable",
+  "srcdoc": "./build/index.html",
+  "fieldTypes": [
+    "Object"
+  ],
+  "parameters": {
+    "instance": [
+      {
+        "id": "title",
+        "name": "Show Title",
+        "default": false,
+        "description": "Show the title field?",
+        "type": "Boolean",
+        "required": true
+      },
+      {
+        "id": "description",
+        "name": "Show Description",
+        "default": false,
+        "description": "Show the description field?",
+        "type": "Boolean",
+        "required": true
+      },
+      {
+        "id": "url",
+        "name": "Show Url",
+        "default": false,
+        "description": "Show the url field?",
+        "type": "Boolean",
+        "required": true
+      },
+      {
+        "id": "image",
+        "name": "Show Image",
+        "default": false,
+        "description": "Show the image field?",
+        "type": "Boolean",
+        "required": true
+      }
+    ]
+  }
+}
