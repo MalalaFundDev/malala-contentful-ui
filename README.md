@@ -34,6 +34,11 @@ Repeatable links. Can also be used for buttons.
 
 Self-host URL: https://malalafunddev.github.io/malala-contentful-ui/links/build
 
+### Repeatable
+A repeatable fields object with optional fields.  
+
+Self-host URL: https://malalafunddev.github.io/malala-contentful-ui/repeatable/build
+
 ### Stats
 Repeatable stats with options for [countup.js](https://inorganik.github.io/countUp.js/).
 
