@@ -171,7 +171,6 @@ const Entry = (props: EditorProps) => {
                         <Card className={"f36-padding--l f36-margin-bottom--l"}>
                             {renderField(entry.fields.data, 'repeatable', 'Images', {
                                 title: true,
-                                description: true,
                                 linkLabel: true,
                                 url: true,
                                 image: true,
