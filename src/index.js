@@ -6,6 +6,7 @@ import {ImageField} from "./imageField";
 import {Sortable} from "./sortable";
 import {FieldGroup} from './fieldGroup'
 import {QAndAField} from "./qAndAField";
+import {RepeatableField} from './repeatableField'
 
 export {
     AccentsField,
@@ -16,4 +17,5 @@ export {
     Sortable,
     FieldGroup,
     QAndAField,
+    RepeatableField
 }

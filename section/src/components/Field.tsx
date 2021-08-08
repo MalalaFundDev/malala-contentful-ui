@@ -12,7 +12,7 @@ import {FormLabel} from "@contentful/forma-36-react-components";
 /* @ts-ignore */
 import {EditorExtensionSDK, EntryFieldAPI, FieldExtensionSDK, LocalesAPI} from "@contentful/app-sdk";
 /* @ts-ignore */
-import {ButtonsField, QAndAField, AccentsField} from "malala-contentful-ui";
+import {ButtonsField, QAndAField, AccentsField, RepeatableField} from "malala-contentful-ui";
 
 interface FieldProps {
     field: EntryFieldAPI;
@@ -20,9 +20,10 @@ interface FieldProps {
     sdk: EditorExtensionSDK;
     type: any;
     label: any;
+    instance: Object;
 }
 
-export const Field: React.FC<FieldProps> = ({ field, locales, sdk, type, label }) => {
+export const Field: React.FC<FieldProps> = ({ field, locales, sdk, type, label, instance = {} }) => {
     const extendedField = field.getForLocale(sdk.locales.default);
     const fieldDetails = sdk.contentType.fields.find(({ id }) => id === extendedField.id);
     const fieldEditorInterface = sdk.editor.editorInterface?.controls?.find(
@@ -42,6 +43,7 @@ export const Field: React.FC<FieldProps> = ({ field, locales, sdk, type, label }
             ...sdk.parameters,
             instance: {
                 ...sdk.parameters.instance,
+                ...instance,
                 ...fieldEditorInterface?.settings,
             },
         },
@@ -60,6 +62,8 @@ export const Field: React.FC<FieldProps> = ({ field, locales, sdk, type, label }
                 return  <ButtonsField sdk={fieldSdk}/>
             case 'q&a':
                 return <QAndAField sdk={fieldSdk}/>
+            case 'repeatable':
+                return <RepeatableField sdk={fieldSdk} />
             default:
                 return <BaseField widgetId={widgetId} sdk={fieldSdk} isInitiallyDisabled={false} />
         }

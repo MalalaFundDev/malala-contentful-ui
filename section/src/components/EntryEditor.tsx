@@ -102,8 +102,8 @@ const Entry = (props: EditorProps) => {
     })
 
 
-    function renderField(field: EntryFieldAPI, type: string | null = null, label: string | null = null) {
-        return <Field field={field} sdk={props.sdk} locales={locales} type={type} label={label} key={'field-' + field.id}/>
+    function renderField(field: EntryFieldAPI, type: string | null = null, label: string | null = null, instance = {}) {
+        return <Field field={field} sdk={props.sdk} locales={locales} type={type} label={label} key={'field-' + field.id} instance={instance}/>
     }
 
 
@@ -163,6 +163,19 @@ const Entry = (props: EditorProps) => {
                     entry.fields.type.getValue() === 'Images' ? <div>
                         <Card className={"f36-padding--l f36-margin-bottom--l"}>
                             {renderField(entry.fields.images)}
+                        </Card>
+                    </div> : ''
+                }
+                {
+                    entry.fields.type.getValue() === 'Photo Stack' ? <div>
+                        <Card className={"f36-padding--l f36-margin-bottom--l"}>
+                            {renderField(entry.fields.data, 'repeatable', 'Images', {
+                                title: true,
+                                description: true,
+                                linkLabel: true,
+                                url: true,
+                                image: true,
+                            })}
                         </Card>
                     </div> : ''
                 }
