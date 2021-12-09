@@ -215,7 +215,7 @@ const Entry = (props: EditorProps) => {
                 <Card className={"f36-padding--l f36-margin-bottom--l"}>
                     {renderField(entry.fields.content)}
                     {
-                        entry.fields.type.getValue() === 'Embed' ? renderField(entry.fields.secondaryContent) : ''
+                        entry.fields.type.getValue() === 'Button Sidebar' || entry.fields.type.getValue() === 'Embed' ? renderField(entry.fields.secondaryContent) : ''
                     }
                 </Card>
                 <Card className={"f36-padding--l"}>
