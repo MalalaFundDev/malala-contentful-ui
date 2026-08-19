@@ -16,13 +16,13 @@ export class App extends React.Component {
   get defaultItem() {
     return Object.assign({}, {
       label: '',
+      subLabel: '',
       stat: '',
       decimalPlaces: '',
       prefix: '',
       suffix: ''
     })
   }
-
 
   constructor(props) {
     super(props);
@@ -138,6 +138,7 @@ export class App extends React.Component {
                       onSortDown={() => Sortable.moveDown(idx)}
         >
           {this.renderField(idx, 'label', 'Label', item.label, 'text', true)}
+          {this.renderField(idx, 'subLabel', 'Sub-Label', item.subLabel, 'text')}
           {this.renderField(idx, 'stat', 'Stat', item.stat, 'text', true)}
           {this.renderField(idx, 'decimalPlaces', 'Decimal Places', item.decimalPlaces, 'number')}
           {this.renderField(idx, 'prefix', 'Prefix', item.prefix)}
